@@ -34,10 +34,9 @@ class B
         //eventEmitter.off("event1", this.onEvent2.bind(this))
         this.OBJECTS.forEach(obj => {
             console.log(util.inspect(obj, {showHidden: false, depth: null, colors: true}))
-
             if(obj.obj.ID === event)
             {
-                console.log("NALEZENO")
+                //console.log(util.inspect(obj, {showHidden: false, depth: null, colors: true}))
                 eventEmitter.off("event1", obj.bind)
             }
         });
@@ -45,8 +44,7 @@ class B
         this.OBJECTS = this.OBJECTS.filter(function(value, index, arr){ 
             return value.obj.ID != event
         })
-        console.log(this.OBJECTS.length)
-        //this.OBJECTS = []
+        console.log("OBJEKTU: " + this.OBJECTS.length)
     }
 
     onTimerTick(instance)
