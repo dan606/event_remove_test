@@ -7,17 +7,15 @@ class A
 {
     constructor()
     {
-        //eventEmitter.on("event1", this.onEvent.bind(this))
+        this.callback = this.onEvent.bind(this)
+        eventEmitter.on("event", this.callback)
     }
 
     onEvent(event)
     {
-        console.log("Přišel event1 " + event)
-        this.ID = event
-        eventEmitter.emit("event2", event)
+        console.log("Přišel event " + event)
+        eventEmitter.off("event", this.callback)
     }
-
-    ID
 }
 
 class B
@@ -25,38 +23,14 @@ class B
     constructor()
     {
         this.TIMER = setInterval(this.onTimerTick, 3000, this)
-        eventEmitter.on("event2", this.onEvent2.bind(this))
-    }
-
-    onEvent2(event)
-    {
-        console.log("Přišel event2 " + event)
-        //eventEmitter.off("event1", this.onEvent2.bind(this))
-        this.OBJECTS.forEach(obj => {
-            console.log(util.inspect(obj, {showHidden: false, depth: null, colors: true}))
-            if(obj.obj.ID === event)
-            {
-                //console.log(util.inspect(obj, {showHidden: false, depth: null, colors: true}))
-                eventEmitter.off("event1", obj.bind)
-            }
-        });
-       
-        this.OBJECTS = this.OBJECTS.filter(function(value, index, arr){ 
-            return value.obj.ID != event
-        })
-        console.log("OBJEKTU: " + this.OBJECTS.length)
     }
 
     onTimerTick(instance)
     {
-        let a = new A
-        let bind = a.onEvent.bind(a)
-        eventEmitter.on("event1", bind)
-        instance.OBJECTS.push({obj:a,bind:bind});
-        eventEmitter.emit("event1", instance.EVENT_INDEX++)
+        this.a = new A
+        eventEmitter.emit("event", instance.EVENT_INDEX++)
     }
 
-    OBJECTS = []
     EVENT_INDEX = 0
 }
 
