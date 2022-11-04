@@ -22,13 +22,13 @@ class B
 {
     constructor()
     {
-        this.TIMER = setInterval(this.onTimerTick, 3000, this)
+        setInterval(this.onTimerTick.bind(this), 3000)
     }
 
-    onTimerTick(instance)
+    onTimerTick()
     {
-        this.a = new A
-        eventEmitter.emit("event", instance.EVENT_INDEX++)
+        let a = new A
+        eventEmitter.emit("event", this.EVENT_INDEX++)
     }
 
     EVENT_INDEX = 0
